@@ -114,82 +114,138 @@ Now when we can call it and use a specific hex color, and not worry that the def
 
 Do note that it is not always favorable to abstract code away, and sometimes it is better to keep it specific.
 
-We've updated our function to be more abstract, but now we've met with a new problem - any code that used the old format of the function will break because now it accepts a hex string instead of a color name - see the next section.
+We've updated our function to be more abstract, but now we've met with a new problem - any code that used the old format of the function will break because now it accepts a hex string instead of a color name - see the next section for the solution.
 
-Make your code backwards compatible
+## Make your code backwards compatible
 Making code backwards compatible means changing code in such a way that it still supports the old format of accessing it.
-Let's take the function from our previous example. After we updated the function to 
+Let's take the function from our previous example. After we updated the function to accept hex colors, any code that uses the old format will need to be updated to use the new format. This can be avoided by making the function backwards compatible. We can do this by making the function process both hex values and color names:
 
-accept hex colors, any code that uses the old format will need to be updated. This can be avoided by making the function backwards compatible. We can do this by making the function process both hex values and color names:
-
-CODE
+```
+function logWithColor(str, color) {
+    switch(color) {
+        case 'green':
+            //Code for outputting green text
+            break
+        case 'red':
+            //Code for outputting red text
+            break
+        case 'blue':
+            //Code for outputting blue text
+            break
+        default:
+            //Code for outputting hex
+            break
+    }
+}
+```
 
 This will ensure that any code that uses the old function's format won't break, and in turn will help us avoid the ripple effect.
 
 
-Define good interfaces
+## Define good interfaces
 Another method to avoid the ripple effect is to write good interfaces.
 
-What is an interface? An interface is the part of a system that is exposed to the user(also called the client), AKA the public part. The 
-
-user can be anything that uses the interface - an end-user using an app, a program using a library or making requests to a REST API. In these examples, the interfaces are the user-interface of the app, the methods and classes of the library that the program can access, and the endpoints that the program can call.
+What is an interface? An **interface** is a part of a system that is exposed to the user(also called the client), AKA the **public** part. The **user** can be anything that uses the interface - an end-user using an app, a program using a library or making requests to a REST API. In these examples, the interfaces respectively are the user-interface of the app, the methods and classes of the library that the program can access, and the endpoints that the program can call.
 
 When speaking within the scope of a single program, an interface can be anything that another part of the program uses. For example, if you have a program that calls function A, function A can be said to be an interface that your program is using.
 
-In OOP, an interface is a more specific term that describes a specific type of class - a class with the purpose of describing the public parts of it (so the idea is the same). But in these examples an interface can be anything that is used by a client(or user)
+[In OOP, an interface](https://stackoverflow.com/questions/2866987/what-is-the-definition-of-interface-in-object-oriented-programming) is a more specific term that describes a specific type of class - a class with the purpose of describing the public parts of it (so the idea is the same). But in these examples an interface can be anything that is used by a client(or user)
 
 So how do we define a good interface? In my opinion the first step to writing a good interface is writing it in such a way that will make it extensible. 
 This builds on top of the first tip - think ahead.
 
-Make it extensible
-This is similar to making an interface backwards compatible. Making an interface extensible means defining it in such a way that any future changes won't require changing the existing parts.
+Making an interface extensible is similar to making it backwards compatible. Making an interface extensible means *defining it in such a way that any future changes won't require changing the existing parts*.
 
 Let's say we have the following class:
 
+```
 class Point {
-    x
-    y
-    setPosition()
-    getPosition()
+    x = 0
+    y = 0
+    setPosition(x, y){
+        this.x = x
+        this.y = y
+    }
+    getPosition() {
+        return {
+            x: this.x,
+            y: this.y
+        }
+    }
 }
+```
 
-
-This class holds two variables and two functions - position_x, position_y for the position, setPosition() for setting the position variables, and getPosition() for retrieving them.
+This class holds two variables and two methods - `x` and `y` for the position, `setPosition()` for setting the position variables, and `getPosition()` for retrieving them.
 
 Now let's say we've decided to make this class 3D and support the Z axis.
 
-CODE
+class Point {
+    x = 0
+    y = 0
+    z = 0
 
-With the way we had initially written the class, we needed to rewrite the setPosition() and getPosition() methods to accomodate the newly added z variable. This means that it wasn't extensible, because when we made additions to it, we had to rewrite some of the existing code.
+    setPosition(x, y, z) {
+        this.x = x
+        this.y = y
+        this.z = z
+    }
 
-Let's try writing our class again from the 
+    getPosition() {
+        return {
+            x: this.x,
+            y: this.y,
+            z: this.z
+        }
+    }
+}
 
-beginning, but this time in such a way that we don't need to rewrite code when making additions: 
+With the way we had initially written the class, we needed to rewrite the `setPosition()` and `getPosition()` methods to accomodate the newly added `z` variable. This means that the class wasn't extensible, because when we made additions to it, we had to rewrite some of the existing code.
 
+Let's try writing our class again from the beginning, but this time in such a way that we don't need to rewrite code when making additions: 
+
+```
 class Point {
     position = {
       x: 0
       y: 0
-   }
-    setPosition()
-    getPosition()
+    }
+    setPosition(position) {
+        this.position = position
+    }
+    getPosition() {
+        return this.position
+    }
 }
+```
 
-As you can see, this time we've written the class a bit differently - we store the position as a single object and accept an object in the setPosition() method, and directly return the position object in the getPosition() method. You'll see why we've done this in the next code snippet.
+As you can see, this time we've written the class a bit differently - we store the position as a single object and accept an object in the `setPosition()` method, and directly return the position object in the `getPosition()` method. You'll see why we've done this in a second.
 
 So now let's try extending our class with the Z position once again:
 
-CODE
+```
+class Point {
+    position = {
+      x: 0
+      y: 0
+      z: 0
+    }
+    setPosition(position) {
+        this.position = position
+    }
+    getPosition() {
+        return this.position
+    }
+}
+```
 
-As you can see, this time all we had to do was add a z propery to our position variable - we didn't need to alter getPosition() and setPosition() at all.
+As you can see, this time all we had to do was add a `z` property to our position object - we didn't need to alter `getPosition()` and `setPosition()` at all.
 
 Be mindful that it's better to write extensible code from the start, otherwise you will still have to face the ripple effect and rewrite the code that uses the old format of the interface (unless you make it backwards compatible)
 
-Conclusion
-In this article we explored the root cause of the ripple effect in programming and explored some ways how we can prevent it 
+## Conclusion
 
-when writing our code.
+In this article we explored the root cause of the ripple effect in programming and explored some ways how we can prevent it when writing our code.
 
 Even with all the tips available from this and other resources, it may not always be evident how you can prevent the ripple effect in your specific cases. Ultimatelly, it is something that comes with experience and as you code more and more, you will naturally learn to solve problems like this before they've occured. 
 
-Thank you so much for reading this article and I hope you've learned something from it. If you have any feedback or questions, feel free to leave them in the comments or email me at jorensmerenjanu@gmail.com ( I will definitely respond - I'm not a busy person)
+Thank you so much for reading this article and I hope you've learned something from it. If you have any feedback or questions, feel free to leave them in the comments or email me at [jorensmerenjanu@gmail.com](mailto:jorensmerenjanu@gmail.com) (I will definitely respond - I'm not a busy person)
