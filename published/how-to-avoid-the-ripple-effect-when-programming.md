@@ -1,6 +1,8 @@
+# How to avoid the ripple effect when programming
+
 Image by [200 Degrees](https://pixabay.com/users/200degrees-2051452/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=1745705) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=1745705)
 
-*Preface*
+## Preface
 
 I would like to start this article by saying that the methods shared here are not the only methods available and there are many other ways how one can avoid the ripple effect.
 
@@ -8,7 +10,18 @@ Also I would like to say that I am not a senior, but rather a mid-level programm
 
 And finally I would like to thank you for taking your time to read this article, it means a lot to me!
 
-# How to avoid the ripple effect when programming
+## Table of contents
+
+2. [Preface](#preface)
+1. [How to avoid the ripple effect when programming](#how-to-avoid-the-ripple-effect-when-programming)
+    * [The premise](#the-premise)
+    * [Think ahead and think thoroughly](#think-ahead-and-think-thoroughly)
+    * [Write abstract code](#write-abstract-code)
+    * [Make your code backwards compatible](#make-your-code-backwards-compatible)
+    * [Define good interfaces](#define-good-interfaces)
+3. [Conclusion](#conclusion)
+
+## How to avoid the ripple effect when programming
 
 What is the ripple effect? You have most likely encountered it before when coding, whether you know about it or not. Simply put, in programming, the **ripple effect** is when you make changes to your existing code, and it causes your codebase to break, requiring you to make even more changes to your code. Let me demonstrate with a simple example:
 
@@ -70,18 +83,18 @@ The ripple effect is not as relevant in a small project where there is not much 
 
 So now that we know what the ripple effect is, let's explore how we can prevent it.
 
-## The premise
+### The premise
 The premise upon which we will be solving the ripple effect problem is the following:
 
 >the ripple effect is caused by changes in the outcome, and not the process. 
 
 By this I mean that changing the code in a way thay doesn't change its API/interface/return values - but instead only changes only how the outcome is achieved - won't cause the ripple effect. So to prevent the ripple effect, we must minimize the changes in the outcome of our code. Below are some tips to achieve this:
 
-## Think ahead and think thoroughly
+### Think ahead and think thoroughly
 
 Before you start writing any code, carefully think through where and how it will be used and how it may be used in the future. Consider all the possible use cases of the code that you are going to implement, both the current use cases and possible future use cases. This will ensure that your code will be long lasting and won't require many changes along the way, which will help you avoid the ripple effect.
 
-## Write abstract code
+### Write abstract code
 It's not always the case, but oftentimes a function or a class can become more useful and less prone to causing a ripple effect if you make it abstract.
 
 For example, let's say you have a function that takes a string and a name of a color and outputs the string in the console, in the specified color
@@ -118,7 +131,7 @@ Do note that it is not always favorable to abstract code away, and sometimes it 
 
 We've updated our function to be more abstract, but now we've met with a new problem - any code that used the old format of the function will break because now it accepts a hex string instead of a color name - see the next section for the solution.
 
-## Make your code backwards compatible
+### Make your code backwards compatible
 Making code backwards compatible means changing code in such a way that it still supports the old format of accessing it.
 Let's take the function from our previous example. After we updated the function to accept hex colors, any code that uses the old format will need to be updated to use the new format. This can be avoided by making the function backwards compatible. We can do this by making the function process both hex values and color names:
 
@@ -144,7 +157,7 @@ function logWithColor(str, color) {
 This will ensure that any code that uses the old function's format won't break, and in turn will help us avoid the ripple effect.
 
 
-## Define good interfaces
+### Define good interfaces
 Another method to avoid the ripple effect is to write good interfaces.
 
 What is an interface? An **interface** is a part of a system that is exposed to the user(also called the client), AKA the **public** part. The **user** can be anything that uses the interface - an end-user using an app, a program using a library or making requests to a REST API. In these examples, the interfaces respectively are the user-interface of the app, the methods and classes of the library that the program can access, and the endpoints that the program can call.
