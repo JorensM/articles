@@ -1,3 +1,5 @@
+Image by [200 Degrees](https://pixabay.com/users/200degrees-2051452/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=1745705) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=1745705)
+
 *Preface*
 
 I would like to start this article by saying that the methods shared here are not the only methods available and there are many other ways how one can avoid the ripple effect.
