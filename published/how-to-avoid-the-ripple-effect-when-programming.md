@@ -48,7 +48,7 @@ const yet_another_varible = sum(y1, y2)
 //...and so on...
 ```
 
-Now let's say that you've decided to update the `sum()`function to be able to sum an indefinite amount of numbers, so you make it accept as an argument a single array and return the sum of the numbers in that array.
+Now let's say that you've decided to update the `sum()`function to be able to sum an indefinite amount of numbers, so you change it to accept as an argument a single array and return the sum of the numbers in that array.
 
 ```
 function sum(numbers) {
@@ -194,6 +194,7 @@ This class holds two variables and two methods - `x` and `y` for the position, `
 
 Now let's say we've decided to make this class 3D and support the Z axis.
 
+```
 class Point {
     x = 0
     y = 0
@@ -213,6 +214,7 @@ class Point {
         }
     }
 }
+```
 
 With the way we had initially written the class, we needed to rewrite the `setPosition()` and `getPosition()` methods to accomodate the newly added `z` variable. This means that the class wasn't extensible, because when we made additions to it, we had to rewrite some of the existing code.
 
@@ -261,6 +263,6 @@ Be mindful that it's better to write extensible code from the start, otherwise y
 
 In this article we explored the root cause of the ripple effect in programming and explored some ways how we can prevent it when writing our code.
 
-Even with all the tips available from this and other resources, it may not always be evident how you can prevent the ripple effect in your specific cases. Ultimatelly, it is something that comes with experience and as you code more and more, you will naturally learn to solve problems like this before they've occured. 
+Even with all the tips available from this and other resources, it may not always be evident how you can prevent the ripple effect in your specific cases. Ultimatelly, it is something that comes with experience and as you code more and more, you will naturally learn to solve problems like th before they've occured. 
 
 Thank you so much for reading this article and I hope you've learned something from it. If you have any feedback or questions, feel free to leave them in the comments or email me at [jorensmerenjanu@gmail.com](mailto:jorensmerenjanu@gmail.com) (I will definitely respond - I'm not a busy person)
